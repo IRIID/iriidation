@@ -5,7 +5,7 @@ import pygame
 
 pygame.init()
 pygame.display.set_caption("IRIID")
-pygame.display.set_mode((0, 0), pygame.RESIZABLE)
+pygame.display.set_mode((100, 100))
 clock = pygame.time.Clock()
 
 
