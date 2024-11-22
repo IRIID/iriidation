@@ -1,83 +1,83 @@
+import asyncio
 import sys
 
 import pygame
-from pygame.locals import *
 
 pygame.init()
-vec = pygame.math.Vector2
-
-HEIGHT = 450
-WIDTH = 400
-ACC = 0.5
-FRIC = -0.12
-FPS = 60
-
-FramePerSec = pygame.time.Clock()
-
-displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game")
+pygame.display.set_caption("IRIID")
+pygame.display.set_mode((0, 0), pygame.RESIZABLE)
+clock = pygame.time.Clock()
 
 
 class Player(pygame.sprite.Sprite):
+    acc = 0.5
+    fric = -0.12
+
     def __init__(self):
         super().__init__()
         self.surf = pygame.Surface((30, 30))
         self.surf.fill((255, 255, 255))
         self.rect = self.surf.get_rect(center=(0, 0))
 
-        self.pos = vec((0, 0))
-        self.vel = vec(0, 0)
-        self.acc = vec(0, 0)
+        self.pos = pygame.math.Vector2((0, 0))
+        self.vel = pygame.math.Vector2(0, 0)
+        self.acc = pygame.math.Vector2(0, 0)
 
     def move(self):
-        self.acc = vec(0, 0)
+        self.acc = pygame.math.Vector2(0, 0)
 
         pressed_keys = pygame.key.get_pressed()
 
         if pressed_keys[pygame.K_LEFT]:
-            self.acc.x = -ACC
+            self.acc.x = -Player.acc
         if pressed_keys[pygame.K_RIGHT]:
-            self.acc.x = ACC
+            self.acc.x = Player.acc
         if pressed_keys[pygame.K_DOWN]:
-            self.acc.y = ACC
+            self.acc.y = Player.acc
         if pressed_keys[pygame.K_UP]:
-            self.acc.y = -ACC
+            self.acc.y = -Player.acc
 
-        self.acc.x += self.vel.x * FRIC
-        self.acc.y += self.vel.y * FRIC
+        self.acc.x += self.vel.x * Player.fric
+        self.acc.y += self.vel.y * Player.fric
 
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
 
-        if self.pos.x > WIDTH:
+        window_width, window_height = pygame.display.get_surface().get_size()
+        if self.pos.x > window_width:
             self.pos.x = 0
         if self.pos.x < 0:
-            self.pos.x = WIDTH
-        if self.pos.y > HEIGHT:
+            self.pos.x = window_width
+        if self.pos.y > window_height:
             self.pos.y = 0
         if self.pos.y < 0:
-            self.pos.y = HEIGHT
+            self.pos.y = window_height
 
         self.rect.midbottom = self.pos
 
 
-P1 = Player()
+async def main():
+    P1 = Player()
 
-all_sprites = pygame.sprite.Group()
-all_sprites.add(P1)
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(P1)
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-    P1.move()
+        P1.move()
 
-    displaysurface.fill((0, 0, 0))
+        display_surface = pygame.display.get_surface()
+        display_surface.fill((0, 0, 0))
 
-    for entity in all_sprites:
-        displaysurface.blit(entity.surf, entity.rect)
+        for entity in all_sprites:
+            display_surface.blit(entity.surf, entity.rect)
 
-    pygame.display.update()
-    FramePerSec.tick(FPS)
+        pygame.display.update()
+        clock.tick(60)
+
+
+asyncio.run(main())
