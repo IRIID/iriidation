@@ -68,15 +68,17 @@ async def main():
                 pygame.quit()
                 sys.exit()
 
-        P1.move()
-
         display_surface = pygame.display.get_surface()
-        display_surface.fill((0, 0, 0))
+        display_surface.fill((24, 24, 24))
+
+        P1.move()
 
         for entity in all_sprites:
             display_surface.blit(entity.surf, entity.rect)
 
         pygame.display.update()
+
+        asyncio.sleep(0)
         clock.tick(60)
 
 
