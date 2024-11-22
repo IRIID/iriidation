@@ -1,38 +1,42 @@
 import asyncio
 import sys
 
-import pygame
+import pygame as pg
 from objects.player import Player
+from objects.world import World
+from sprites.viewport import Viewport
+from ui import colour
 
-pygame.init()
-pygame.display.set_caption("IRIID")
-pygame.display.set_mode((100, 100))
-clock = pygame.time.Clock()
+pg.init()
+pg.display.set_caption("IRIID")
+pg.display.set_mode((640, 640))
+clock = pg.time.Clock()
 
 
 async def main():
-    p1 = Player()
+    # world = World(100, 100)
 
-    all_sprites = pygame.sprite.Group()
-    all_sprites.add(p1)
+    all_sprites = pg.sprite.LayeredUpdates()
+    Viewport(all_sprites)
+    Player(all_sprites)
 
     while True:
-        pygame.display.update()
+        pg.display.update()
         await asyncio.sleep(0)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
                 sys.exit()
 
-        display_surface = pygame.display.get_surface()
-        display_surface.fill((24, 24, 24))
+        all_sprites.update()
 
-        p1.move()
+        display_surface = pg.display.get_surface()
+        display_surface.fill(colour.DARK_GREY)
 
-        for entity in all_sprites:
-            display_surface.blit(entity.surf, entity.rect)
+        all_sprites.draw(display_surface)
 
+        # pg.display.flip()
         clock.tick(60)
 
 
