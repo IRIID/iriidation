@@ -1,9 +1,10 @@
 import pygame as pg
+from sprites.helpers import layers
 
 
 class Viewport(pg.sprite.Sprite):
     def __init__(self, grp):
-        self._layer = 100
+        self._layer = layers.LAYERS["VIEWPORT"]
         pg.sprite.Sprite.__init__(self, grp)
 
         window = pg.display.get_surface().get_rect()

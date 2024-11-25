@@ -1,5 +1,5 @@
 import pygame as pg
-from ui import colour
+from sprites.helpers import colour
 
 
 class Player(pg.sprite.Sprite):
@@ -14,7 +14,7 @@ class Player(pg.sprite.Sprite):
         self.global_acc = 0.5
         self.global_fric = -0.12
 
-        self.pos = pg.math.Vector2((100, 100))
+        self.pos = pg.math.Vector2((320, 320))
         self.vel = pg.math.Vector2(0, 0)
         self.acc = pg.math.Vector2(0, 0)
 

@@ -1,11 +1,12 @@
 import asyncio
+import math
 import sys
 
 import pygame as pg
-from objects.player import Player
-from objects.world import World
+from player import Player
+from sprites.helpers import colour
 from sprites.viewport import Viewport
-from ui import colour
+from sprites.world import World
 
 pg.init()
 pg.display.set_caption("IRIID")
@@ -14,13 +15,15 @@ clock = pg.time.Clock()
 
 
 async def main():
-    # world = World(100, 100)
-
     all_sprites = pg.sprite.LayeredUpdates()
-    Viewport(all_sprites)
+    world = World(all_sprites, tiles_x=100, tiles_y=100)
     Player(all_sprites)
+    Viewport(all_sprites)
+
+    a = 0
 
     while True:
+        a += 1
         pg.display.update()
         await asyncio.sleep(0)
 
@@ -34,9 +37,11 @@ async def main():
         display_surface = pg.display.get_surface()
         display_surface.fill(colour.DARK_GREY)
 
+        # world.set_displacement([(math.sin(a / 100) + 1) * 100, 0])
+        world.set_zoom(math.sin(a / 100) + 1)
+
         all_sprites.draw(display_surface)
 
-        # pg.display.flip()
         clock.tick(60)
 
 
