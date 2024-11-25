@@ -38,7 +38,7 @@ async def main():
         display_surface.fill(colour.DARK_GREY)
 
         # world.set_displacement([(math.sin(a / 100) + 1) * 100, 0])
-        world.set_zoom(math.sin(a / 100) + 1)
+        # world.set_zoom(math.sin(a / 100) + 1)
 
         all_sprites.draw(display_surface)
 
