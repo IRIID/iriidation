@@ -1,11 +1,11 @@
 import pygame as pg
-from sprites.helpers import layers
+from utils.layers import LAYERS
 
 
 class Viewport(pg.sprite.Sprite):
-    def __init__(self, grp):
-        self._layer = layers.LAYERS["VIEWPORT"]
-        pg.sprite.Sprite.__init__(self, grp)
+    def __init__(self):
+        super().__init__()
+        self._layer = LAYERS["VIEWPORT"]
 
         window = pg.display.get_surface().get_rect()
         self.image = pg.Surface((window.width, window.height))

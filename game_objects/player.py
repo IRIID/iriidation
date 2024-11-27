@@ -1,14 +1,13 @@
 import pygame as pg
-from sprites.helpers import colour
 
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, grp):
+    def __init__(self):
+        super().__init__()
         self._layer = 0
-        pg.sprite.Sprite.__init__(self, grp)
 
-        self.image = pg.Surface((30, 30))
-        self.image.fill(colour.WHITE)
+        self.image = pg.Surface((40, 40))
+        self.image.blit(pg.image.load("sprites/player.png").convert_alpha(), (0, 0))
         self.rect = self.image.get_rect(center=(0, 0))
 
         self.global_acc = 0.5

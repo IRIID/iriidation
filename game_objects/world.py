@@ -2,9 +2,9 @@ import os
 import random
 
 import pygame as pg
-from sprites.helpers import layers
+from utils.layers import LAYERS
 
-TILE_IMG_DIR = "tiles"
+TILE_IMG_DIR = "sprites"
 PIXEL_SIZE_OF_TILE = 40
 
 
@@ -13,18 +13,18 @@ class Tile:
 
 
 class DirtTile(Tile):
-    source = os.path.join(TILE_IMG_DIR, "dirt.png")
+    source = os.path.join(TILE_IMG_DIR, "tile_dirt.png")
 
 
 class GrassTile(Tile):
     walk_speed_factor = 0.6
-    source = os.path.join(TILE_IMG_DIR, "grass.png")
+    source = os.path.join(TILE_IMG_DIR, "tile_grass.png")
 
 
 class World(pg.sprite.Sprite):
-    def __init__(self, grp, tiles_x: int, tiles_y: int):
-        self._layer = layers.LAYERS["WORLD"]
-        pg.sprite.Sprite.__init__(self, grp)
+    def __init__(self, tiles_x: int, tiles_y: int):
+        super().__init__()
+        self._layer = LAYERS["WORLD"]
 
         self.tiles_x = tiles_x
         self.tiles_y = tiles_y
@@ -71,7 +71,7 @@ class World(pg.sprite.Sprite):
         for y, tile_row in enumerate(self.tile_map):
             for x, tile in enumerate(tile_row):
                 self.image.blit(
-                    source=pg.image.load(tile.source),
+                    source=pg.image.load(tile.source).convert_alpha(),
                     dest=(x * PIXEL_SIZE_OF_TILE, y * PIXEL_SIZE_OF_TILE),
                 )
 
