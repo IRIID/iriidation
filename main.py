@@ -1,3 +1,9 @@
+# /// script
+# dependencies = [
+#  "glcontext",
+#  "moderngl",
+# ]
+# ///
 import asyncio
 import ctypes
 import sys
